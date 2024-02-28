@@ -2,6 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 
 const App = () => {
+  const [status, setStatus] = useState('off'); // off, work, rest
+  const [time, setTime] = useState(20 * 60); // czas w sekundach - 20 minut
+  const [timer, setTimer] = useState(null);
+
   return (
     <div>
       <h1>Protect your eyes</h1>
