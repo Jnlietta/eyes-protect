@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { render } from 'react-dom';
 
 const App = () => {
   const [status, setStatus] = useState('off'); // off, work, rest
   const [time, setTime] = useState(20 * 60); // czas w sekundach - 20 minut
   const [timer, setTimer] = useState(null);
-  console.log(status,time,timer);
+  console.log(status,timer);
+
+  const padTo2Digits = num => {
+    return num.toString().padStart(2, '0');
+  }
+
+  const formatTime = useMemo(() => {
+    const formatedTimer = seconds => {
+      let minutes = Math.floor(seconds / 60);
+      seconds = seconds % 60;
+      return `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
+    };
+
+    return formatedTimer(time);
+  }, [time]);
 
   return (
     <div>
@@ -24,7 +38,7 @@ const App = () => {
       )}
       { status !== 'off' && (
         <div className="timer">
-          18:23
+          {formatTime}
         </div>
       )}
       { status === 'off' && (
