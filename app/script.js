@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { render } from 'react-dom';
 
 const App = () => {
@@ -21,38 +21,24 @@ const App = () => {
   }, [time]);
 
   const startTimer = () => {
-    //stop interval if it was started
     if (timer) clearInterval(timer);
-
-    //set basic func values
-    setTime(1200);
     setStatus('work');
 
-    //define new interval
-    const newTimer = setInterval(() => {
-      //count time by 1 sec
-      setTime(prevTime => prevTime - 1);
-  
-      //chceck if time is 0
-      if (time <= 0) {
-        //if yes stop interval
-        clearInterval(newTimer);
-  
-        //change status to opposite
-        setStatus(prevStatus => (prevStatus === 'work' ? 'rest' : 'work'));
-  
-        //set new value of time 
-        setTime(prevStatus => (prevStatus === 'work' ? 20 : 1200));
-  
-        // Rozpoczynamy odliczanie od nowa
-        startTimer();
-      }
-    }, 1000);
-
-    // setTimer(setInterval(() => {
-    //   setTime(time => time - 1);
-    // }, 1000));
+    setTimer(setInterval(() => {
+      setTime(prevValue => {
+          if (prevValue <= 0) {
+            setStatus(prevStatus => prevStatus === 'work' ? 'rest' : 'work');
+          } else {
+              return prevValue - 1;
+          }
+      });
+    }, 1000));
   };
+
+  useEffect(() => {
+    if(status === 'work') setTime(1200);
+    if(status === 'rest') setTime(20);
+  }, [status]);
 
   return (
     <div>
