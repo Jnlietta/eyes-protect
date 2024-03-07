@@ -52,8 +52,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    if(status === 'work') setTime(3);
-    if(status === 'rest') setTime(2);
+    if(status === 'work') setTime(1200);
+    if(status === 'rest') setTime(20);
   }, [status]);
 
   return (
