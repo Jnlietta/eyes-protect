@@ -5,11 +5,10 @@ const App = () => {
   const [status, setStatus] = useState('off'); // off, work, rest
   const [time, setTime] = useState(20 * 60); // czas w sekundach - 20 minut
   const [timer, setTimer] = useState(null);
-  console.log(status,timer);
 
   const padTo2Digits = num => {
     return num.toString().padStart(2, '0');
-  }
+  };
 
   const formatTime = useMemo(() => {
     const formatedTimer = seconds => {
@@ -20,6 +19,14 @@ const App = () => {
 
     return formatedTimer(time);
   }, [time]);
+
+  const startTimer = () => {
+    setTime(1200);
+    setStatus('work');
+    setTimer(setInterval(() => {
+      setTime(time => time - 1);
+    }, 1000));
+  };
 
   return (
     <div>
@@ -42,7 +49,7 @@ const App = () => {
         </div>
       )}
       { status === 'off' && (
-        <button className="btn">Start</button>
+        <button className="btn" onClick={startTimer}>Start</button>
       )}
       { status !== 'off' && (
         <button className="btn">Stop</button>
