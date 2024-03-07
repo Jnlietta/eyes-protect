@@ -6,6 +6,11 @@ const App = () => {
   const [time, setTime] = useState(20 * 60); // czas w sekundach - 20 minut
   const [timer, setTimer] = useState(null);
 
+  const playBell = () => {
+    const bell = new Audio('./sounds/bell.wav');
+    bell.play();
+  };
+
   const padTo2Digits = num => {
     return num.toString().padStart(2, '0');
   };
@@ -27,6 +32,7 @@ const App = () => {
     setTimer(setInterval(() => {
       setTime(prevValue => {
           if (prevValue <= 0) {
+            playBell();
             setStatus(prevStatus => prevStatus === 'work' ? 'rest' : 'work');
           } else {
               return prevValue - 1;
@@ -46,8 +52,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    if(status === 'work') setTime(1200);
-    if(status === 'rest') setTime(20);
+    if(status === 'work') setTime(3);
+    if(status === 'rest') setTime(2);
   }, [status]);
 
   return (
